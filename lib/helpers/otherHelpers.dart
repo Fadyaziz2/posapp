@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:barcode_scan2/barcode_scan2.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 // import 'package:call_log/call_log.dart';
@@ -8,6 +7,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:cron/cron.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html_to_pdf/flutter_html_to_pdf.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -168,8 +168,16 @@ class Helper {
   }
 
   Future<String> barcodeScan() async {
-    var result = await BarcodeScanner.scan();
-    return result.rawContent.trimRight();
+    try {
+      final result = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      if (result == '-1') {
+        return '';
+      }
+      return result.trim();
+    } catch (e) {
+      return '';
+    }
   }
 
   //function for formatting invoice
