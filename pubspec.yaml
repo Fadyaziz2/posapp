@@ -67,6 +67,7 @@ dependencies:
   share: any
   syncfusion_flutter_datepicker: any
   url_launcher: any
+  video_player: any
 
 
 
