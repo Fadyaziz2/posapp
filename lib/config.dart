@@ -3,7 +3,7 @@ import 'dart:ui';
 
 class Config {
 
-  static String baseUrl = 'http://158.220.122.81/pos/public';
+  static String baseUrl = 'http://158.220.122.81/pos/public/';
   static int? userId;
        String clientId = '3',
         clientSecret = 'MMH63Tj0BeVQKa1DL8liyQhQglZDm97b5tuMYtNL',
