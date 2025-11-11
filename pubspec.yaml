@@ -48,7 +48,7 @@ dependencies:
   fluttertoast: any
   geolocator: 8.0.0
   get_ip_address: any
-  google_fonts: any
+  google_fonts: 2.1.0
   google_maps_flutter: any
   http: any
   image_picker: any
