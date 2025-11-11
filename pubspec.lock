@@ -43,13 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  barcode_scan2:
+  flutter_barcode_scanner:
     dependency: "direct main"
     description:
-      name: barcode_scan2
+      name: flutter_barcode_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.1"
+    version: "2.0.0"
   boolean_selector:
     dependency: transitive
     description:

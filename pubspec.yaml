@@ -33,7 +33,7 @@ dependencies:
 #  android_alarm_manager: any
   app_settings: any
   badges: any
-  barcode_scan2: any
+  flutter_barcode_scanner: ^2.0.0
   cached_network_image: any
   #  call_log: any
   change_app_package_name: any
