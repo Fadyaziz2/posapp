@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.5.0+1
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -46,7 +46,7 @@ dependencies:
   #  flutter_phone_state: any
   #  flutter_polyline_points: any
   fluttertoast: any
-  geolocator: 8.0.0
+  geolocator: ^9.0.2
   get_ip_address: any
   google_fonts: 2.1.0
   google_maps_flutter: any
@@ -65,7 +65,7 @@ dependencies:
   shared_preferences: any
   search_choices: any
   share: any
-  syncfusion_flutter_datepicker: any
+  syncfusion_flutter_datepicker: ^22.2.12
   url_launcher: any
   video_player: any
 
