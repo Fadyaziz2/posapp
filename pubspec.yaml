@@ -65,7 +65,7 @@ dependencies:
   shared_preferences: any
   search_choices: any
   share: any
-  syncfusion_flutter_datepicker: ^22.2.12
+  syncfusion_flutter_datepicker: ^21.1.41
   url_launcher: any
   video_player: any
 
