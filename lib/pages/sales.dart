@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:search_choices/search_choices.dart';
-import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../apis/api.dart';
@@ -588,40 +587,87 @@ class _SalesState extends State<Sales> {
                                     Expanded(child: customers())
                                   ],
                                 ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context)
-                                        .push(new MaterialPageRoute<Null>(
-                                            builder: (BuildContext context) {
-                                              return dateRangePicker();
-                                            },
-                                            fullscreenDialog: true));
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.all(MySize.size8!),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(MySize.size8!)),
-                                      color: customAppTheme.bgLayer1,
-                                      border: Border.all(
-                                          color: customAppTheme.bgLayer4,
-                                          width: 2),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () async {
+                                          final DateTime? parsedStart = startDateRange != null
+                                              ? DateTime.tryParse(startDateRange!)
+                                              : null;
+                                          final DateTime? parsedEnd = endDateRange != null
+                                              ? DateTime.tryParse(endDateRange!)
+                                              : null;
+                                          final DateTimeRange? initialRange = (parsedStart != null && parsedEnd != null)
+                                              ? DateTimeRange(start: parsedStart, end: parsedEnd)
+                                              : null;
+                                          final DateTimeRange? pickedRange = await showDateRangePicker(
+                                            context: context,
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(2100),
+                                            initialDateRange: initialRange,
+                                            helpText: AppLocalizations.of(context)
+                                                .translate('select_range'),
+                                            cancelText: AppLocalizations.of(context)
+                                                .translate('cancel'),
+                                            saveText: AppLocalizations.of(context)
+                                                .translate('ok'),
+                                          );
+                                          if (!mounted) return;
+                                          if (pickedRange != null) {
+                                            setState(() {
+                                              startDateRange = DateFormat('yyyy-MM-dd')
+                                                  .format(pickedRange.start);
+                                              endDateRange = DateFormat('yyyy-MM-dd')
+                                                  .format(pickedRange.end);
+                                            });
+                                          }
+                                        },
+                                        child: Container(
+                                          padding: EdgeInsets.all(MySize.size8!),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(
+                                                Radius.circular(MySize.size8!)),
+                                            color: customAppTheme.bgLayer1,
+                                            border: Border.all(
+                                                color: customAppTheme.bgLayer4,
+                                                width: 2),
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  (startDateRange != null &&
+                                                          endDateRange != null)
+                                                      ? "$startDateRange   -   $endDateRange"
+                                                      : AppLocalizations.of(context)
+                                                          .translate('select_range'),
+                                                  style: AppTheme.getTextStyle(
+                                                      themeData.textTheme.bodyText1,
+                                                      fontWeight: 600)),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Text(
-                                            (startDateRange != null &&
-                                                    endDateRange != null)
-                                                ? "$startDateRange   -   $endDateRange"
-                                                : "Date range",
-                                            style: AppTheme.getTextStyle(
-                                                themeData.textTheme.bodyText1,
-                                                fontWeight: 600)),
-                                      ],
-                                    ),
-                                  ),
+                                    SizedBox(width: MySize.size8!),
+                                    TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          startDateRange = null;
+                                          endDateRange = null;
+                                        });
+                                      },
+                                      child: Text(
+                                        AppLocalizations.of(context)
+                                            .translate('reset'),
+                                        style: AppTheme.getTextStyle(
+                                            themeData.textTheme.bodyText1,
+                                            fontWeight: 600),
+                                      ),
+                                    )
+                                  ],
                                 ),
                                 Padding(
                                   padding: EdgeInsets.symmetric(
@@ -755,82 +801,6 @@ class _SalesState extends State<Sales> {
           );
   }
 
-  Widget dateRangePicker() {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(AppLocalizations.of(context).translate('select_range')),
-        elevation: 0,
-      ),
-      body: Column(
-        children: [
-          SfDateRangePicker(
-            view: DateRangePickerView.year,
-            selectionMode: DateRangePickerSelectionMode.range,
-            onSelectionChanged: (DateRangePickerSelectionChangedArgs args) {
-              if (args.value.startDate != null) {
-                setState(() {
-                  startDateRange = DateFormat('yyyy-MM-dd')
-                      .format(args.value.startDate)
-                      .toString();
-                });
-              }
-              if (args.value.endDate != null) {
-                setState(() {
-                  endDateRange = DateFormat('yyyy-MM-dd')
-                      .format(args.value.endDate)
-                      .toString();
-                });
-              }
-            },
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: MySize.size30!),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(MySize.size20!),
-                      side: BorderSide(color: themeData.colorScheme.primary)),
-                  onPrimary: themeData.colorScheme.primary,
-                ),
-                onPressed: () {
-                  setState(() {
-                    startDateRange = null;
-                    endDateRange = null;
-                  });
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  AppLocalizations.of(context).translate('reset'),
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
-                      color: themeData.colorScheme.onPrimary),
-                ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(MySize.size20!),
-                      side: BorderSide(color: themeData.colorScheme.primary)),
-                  onPrimary: themeData.colorScheme.primary,
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  AppLocalizations.of(context).translate('ok'),
-                  style: AppTheme.getTextStyle(themeData.textTheme.headline6,
-                      color: themeData.colorScheme.onPrimary),
-                ),
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
 
   //recent sales listing widget
   Widget recentSellItem(

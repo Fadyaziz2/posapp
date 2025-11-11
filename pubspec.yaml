@@ -65,7 +65,6 @@ dependencies:
   shared_preferences: any
   search_choices: any
   share: any
-  syncfusion_flutter_datepicker: ^21.1.41
   url_launcher: any
   video_player: any
 
@@ -120,3 +119,6 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+dependency_overrides:
+  win32: ^4.1.4
